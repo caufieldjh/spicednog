@@ -1,20 +1,20 @@
 #!/usr/bin/python
 # SPecIfic Conservation for Every DamN Orthologous Group - SPICEDNOG 
 # OG presence helper - simple version
-# Needs to be placed in same directory as *.members.txt (usually /all.members)
-# Input: As an input text file, the name of one or more eggNOG OGs (i.e., COG1234).
+# Needs to be placed in same directory as eggNOG v.3 *.members.txt (usually /all.members)
+# Input: * As an input text file, the name of one or more eggNOG OGs (i.e., COG1234).
 # 	COGs, NOGs, and bactNOGs will work.
+#	* An an additional input, a file containing a list of 
+#		NCBI taxon IDs (Also used by eggNOG), one on each line
 # Output: A taxon ID number and presence or absence of the OG for that taxon.
 #	1 indicates the OG is present at least once for that taxon ID.
 #	0 indicates the OG could not be found for that taxon ID.
-# At the moment this is set up to write to my Dropbox, 
-# so if you aren't Harry then you should change that.
 
 import sys, array
 
 #specieslist = open("speclist-edited.txt")  
-specieslist = open("speclist-big.txt") #This is just a list of NCBI taxon IDs (Also used by eggNOG), one on each line.
-searchlist = open("HuComplexComponentsWithoutEC.txt")
+specieslist = open("speclist.txt") #The species list to use
+searchlist = open("OGsToSearchFor.txt")
 listOfSpec = []
 listOfOG = []
 searchOGs = []
@@ -69,7 +69,7 @@ for eachOG in searchOGs:
 		#print oneSpeciesResults
 	resultsList.append(oneSpeciesResults)
 
-marshmallow_out=open('C:\Users\Harry\Dropbox\Marshmallow_output.txt', 'w')			
+marshmallow_out=open('Marshmallow_output.txt', 'w')			
 marshmallow_out.write("*Species*\t%s" % '\t'.join(map(str, searchOGs)) + "\n")
 index = 0
 for item in listOfSpec:
