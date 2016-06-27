@@ -6,7 +6,7 @@
 #  bactNOG.members.tsv
 #  NOG.members.tsv
 # These files are available at http://eggnogdb.embl.de/#/app/downloads
-# Input: * As an input text file, the name of one or more eggNOG OGs (i.e., ENOG4105ZRE).
+# Input: * As an input text file, the name of one or more eggNOG NOGs (i.e., ENOG4105ZRE).
 #	* An an additional input, a file containing a list of 
 #		NCBI taxon IDs (Also used by eggNOG), one on each line
 # Output: A taxon ID number and presence or absence of the OG for that taxon.
@@ -16,7 +16,7 @@
 import array, re, sys
 
 specieslist = open("speclist.txt") #The species list to use
-searchlist = open("test_ogs.txt")
+searchlist = open("list_of_ogs.txt")	#The list of eggNOG NOGs
 listOfSpec = []
 listOfOG = []
 searchOGs = []
@@ -57,22 +57,29 @@ def main():
 		print "Loaded bactNOG list."
 	
 	for eachOG in searchOGs:
+		og_found = 0
 		print "Searching for %s..." % eachOG
 		oneSpeciesResults = {}
 		for group in listOfOG:
 			if group[1] == eachOG:
+				og_found = 1
 				for i in listOfSpec:
 					if i in group[5]:	
 						oneSpeciesResults[i] = 1
 					else:
 						oneSpeciesResults[i] = 0
 				break
+		if og_found == 0:	#That is, if the OG isn't found anywhere
+			#Likely if we search using something that isn't an OG ID
+			for i in listOfSpec:
+				oneSpeciesResults[i] = 0
 		resultsList[eachOG] = oneSpeciesResults
 	
 	marshmallow_out=open(output_filename, 'w')			
 	marshmallow_out.write("*Species*\t%s" % '\t'.join(map(str, searchOGs)) + "\n")
 	index = 0
 	for taxid in listOfSpec:
+		print("Writing results for %s." % taxid)
 		tempString = "%s\t" % taxid
 		for og in searchOGs:
 			tempString = tempString + str(resultsList[og][taxid]) + "\t"
