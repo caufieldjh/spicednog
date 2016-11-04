@@ -10,9 +10,7 @@
 
 import sys, array
 
-#specieslist = open("eDUFspeclist.txt")
-specieslist = open("speclist-edited.txt")  
-#specieslist = open("speclist.txt") #This is just a list of NCBI taxon IDs (Also used by eggNOG), one on each line.
+specieslist = open("speclist.txt") #This is just a list of NCBI taxon IDs (Also used by eggNOG), one on each line.
 listOfSpec = []
 listOfOG = []
 searchOGs = []
